@@ -1,9 +1,10 @@
 /*
- * @brief Implementacao das funcoes de parseamento de comandos seriais.
+ * @brief Implementacao do processamento de comandos seriais.
  */
 
 /* INCLUDES */
 #include "SerialCmd.h"
+#include "Bsp.h"
 
 /* DEFINES LOCAIS */
 
@@ -16,11 +17,9 @@
 /* FUNCOES PUBLICAS */
 
 void SerialCmd_Init(void) {
-    /* Inicializacao da UART e de filas/buffers */
 }
 
 void SerialCmd_Routine(void) {
-    /* Verificacao de novos pacotes e execucao de acoes de acordo com o comando */
 }
 
 /* FUNCOES LOCAIS */

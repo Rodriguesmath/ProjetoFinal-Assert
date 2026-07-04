@@ -1,5 +1,5 @@
 /*
- * @brief Arquivo de definicoes para recebimento e processamento de comandos seriais.
+ * @brief Arquivo de definicoes para comandos seriais.
  */
 #ifndef _SERIALCMD_H_
 #define _SERIALCMD_H_
@@ -17,14 +17,14 @@
 /* PROTOTIPOS PUBLICOS */
 
 /**
- * @brief Inicializa a comunicacao serial e os buffers de comando.
+ * @brief Inicializa o modulo de comandos seriais.
  * @param void
  * @retval void
  */
 void SerialCmd_Init(void);
 
 /**
- * @brief Processa os comandos recebidos na rotina principal.
+ * @brief Rotina de processamento de comandos.
  * @param void
  * @retval void
  */

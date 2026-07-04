@@ -1,9 +1,10 @@
 /*
- * @brief Implementacao das funcoes de leitura e gerenciamento de estados dos botoes.
+ * @brief Implementacao da leitura de botoes.
  */
 
 /* INCLUDES */
 #include "Button.h"
+#include "Bsp.h"
 
 /* DEFINES LOCAIS */
 
@@ -16,17 +17,13 @@
 /* FUNCOES PUBLICAS */
 
 void Button_Init(void) {
-    /* Configuracao do GPIO com pull-ups internos ou interrupcoes */
 }
 
 void Button_Routine(void) {
-    /* Filtro de debounce e maquina de estados de clique */
 }
 
 bool Button_IsFrozen(void) {
-    bool isSystemFrozen = false;
-    /* Retorna a flag de estado global alterada por algum dos botoes */
-    return isSystemFrozen;
+    return false;
 }
 
 /* FUNCOES LOCAIS */

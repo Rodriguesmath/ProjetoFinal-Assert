@@ -5,6 +5,7 @@
 #define _LEDPWM_H_
 
 /* INCLUDES NECESSARIOS */
+#include "Bsp.h"
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -13,8 +14,7 @@
 /* DEFINES PUBLICOS */
 
 /* TIPOS DE DADOS PUBLICOS */
-
-/// Enumeracao que define os modos de operacao do controle de LED.
+/// Enumeracao para os modos de operacao do LED
 typedef enum {
     eLED_MODE_AUTOMATIC,
     eLED_MODE_MANUAL
@@ -23,32 +23,32 @@ typedef enum {
 /* PROTOTIPOS PUBLICOS */
 
 /**
- * @brief Inicializa o hardware de PWM associado aos LEDs.
+ * @brief Inicializa o modulo de controle PWM de LEDs.
  * @param void
  * @retval void
  */
 void LedPwm_Init(void);
 
 /**
- * @brief Rotina principal de controle de intensidade e atualizacao dos LEDs.
+ * @brief Rotina principal de controle dos LEDs.
  * @param void
  * @retval void
  */
 void LedPwm_Routine(void);
 
 /**
- * @brief Altera o modo de operacao dos LEDs.
- * @param mode Novo modo a ser configurado (Automatico ou Manual).
+ * @brief Altera o modo de operacao.
+ * @param mode Novo modo a ser configurado.
  * @retval void
  */
 void LedPwm_SetMode(ledMode_t mode);
 
 /**
- * @brief Define manualmente a porcentagem de brilho de um LED especifico.
- * @param ledIndex Indice identificador do LED.
- * @param percentage Porcentagem de brilho desejada (0 a 100).
+ * @brief Define manualmente a porcentagem de um LED.
+ * @param led O identificador do LED.
+ * @param percentage Porcentagem de brilho (0 a 100).
  * @retval void
  */
-void LedPwm_SetManualPercentage(uint8_t ledIndex, uint8_t percentage);
+void LedPwm_SetManualPercentage(ledId_t led, uint8_t percentage);
 
 #endif /* _LEDPWM_H_ */

@@ -1,5 +1,5 @@
 /*
- * @brief Arquivo de definicoes para gerenciamento e debounce de botoes.
+ * @brief Arquivo de definicoes para debounce de botoes.
  */
 #ifndef _BUTTON_H_
 #define _BUTTON_H_
@@ -17,23 +17,23 @@
 /* PROTOTIPOS PUBLICOS */
 
 /**
- * @brief Inicializa o modulo e os pinos GPIO configurados como entrada para os botoes.
+ * @brief Inicializa o modulo de botoes.
  * @param void
  * @retval void
  */
 void Button_Init(void);
 
 /**
- * @brief Executa o tratamento de debounce e identifica cliques ou eventos longos.
+ * @brief Rotina de leitura e debounce de botoes.
  * @param void
  * @retval void
  */
 void Button_Routine(void);
 
 /**
- * @brief Retorna uma indicacao booleana se o sistema esta em estado congelado.
+ * @brief Retorna se o sistema esta congelado.
  * @param void
- * @retval bool 'true' se estiver congelado, caso contrario 'false'.
+ * @retval bool 'true' se congelado, 'false' senao.
  */
 bool Button_IsFrozen(void);
 

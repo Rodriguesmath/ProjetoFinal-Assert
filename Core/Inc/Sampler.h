@@ -1,5 +1,5 @@
 /*
- * @brief Arquivo de definicoes para o modulo de amostragem ADC.
+ * @brief Arquivo de definicoes para o modulo de amostragem.
  */
 #ifndef _SAMPLER_H_
 #define _SAMPLER_H_
@@ -24,23 +24,23 @@
 void Sampler_Init(void);
 
 /**
- * @brief Rotina principal do modulo de amostragem para o laco principal.
+ * @brief Rotina principal do modulo de amostragem.
  * @param void
  * @retval void
  */
 void Sampler_Routine(void);
 
 /**
- * @brief Retorna o valor cru (raw) lido do ADC.
+ * @brief Retorna o valor cru do ADC.
  * @param void
  * @retval uint32_t Valor cru do ADC.
  */
 uint32_t Sampler_GetRawAdc(void);
 
 /**
- * @brief Retorna o valor de amostragem convertido em porcentagem.
+ * @brief Retorna o valor em porcentagem.
  * @param void
- * @retval uint8_t Valor em porcentagem (0 a 100).
+ * @retval uint8_t Porcentagem de 0 a 100.
  */
 uint8_t Sampler_GetPercentage(void);
 
