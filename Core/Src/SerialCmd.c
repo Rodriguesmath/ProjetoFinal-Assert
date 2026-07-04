@@ -15,6 +15,20 @@
 /* DEFINES LOCAIS */
 /// Tamanho maximo reservado para o buffer de recepcao da porta serial
 #define dRX_BUFFER_SIZE 64
+/// Tamanho maximo reservado para o buffer de transmissao da resposta
+#define dRESPONSE_BUFFER_SIZE 128
+/// Comando para entrar no modo automatico
+#define dCMD_MODE_AUTO "MODE AUTO"
+#define dCMD_MODE_AUTO_LEN 9
+/// Comando para entrar no modo manual
+#define dCMD_MODE_MANUAL "MODE MANUAL"
+#define dCMD_MODE_MANUAL_LEN 11
+/// Comando para relatorio de status
+#define dCMD_STATUS "STATUS"
+#define dCMD_STATUS_LEN 6
+/// Comando base para controle de LED
+#define dCMD_LED_PREFIX "LED "
+#define dCMD_LED_PREFIX_LEN 4
 
 /* CONSTANTES */
 
@@ -70,22 +84,22 @@ void SerialCmd_Routine(void) {
 /* FUNCOES LOCAIS */
 
 static void processCommand(const char *command) {
-    char responseBuffer[128];
+    char responseBuffer[dRESPONSE_BUFFER_SIZE];
     
     /* REGRA: Mudar o modulo LedPwm para o modo AUTOMATICO */
-    if (strncmp(command, "MODE AUTO", 9) == 0) {
+    if (strncmp(command, dCMD_MODE_AUTO, dCMD_MODE_AUTO_LEN) == 0) {
         LedPwm_SetMode(eLED_MODE_AUTOMATIC);
         Bsp_TransmitString("OK: Modo Automatico Ativado\r\n");
     }
     
     /* REGRA: Mudar o modulo LedPwm para o modo MANUAL */
-    else if (strncmp(command, "MODE MANUAL", 11) == 0) {
+    else if (strncmp(command, dCMD_MODE_MANUAL, dCMD_MODE_MANUAL_LEN) == 0) {
         LedPwm_SetMode(eLED_MODE_MANUAL);
         Bsp_TransmitString("OK: Modo Manual Ativado\r\n");
     }
     
     /* REGRA: Relatorio dinamico do estado atual (Consome Sampler e Button) */
-    else if (strncmp(command, "STATUS", 6) == 0) {
+    else if (strncmp(command, dCMD_STATUS, dCMD_STATUS_LEN) == 0) {
         snprintf(responseBuffer, sizeof(responseBuffer), 
                  "ADC Raw: %lu | PCT: %u%% | Congelado: %s\r\n", 
                  (unsigned long)Sampler_GetRawAdc(), 
@@ -95,7 +109,7 @@ static void processCommand(const char *command) {
     }
     
     /* REGRA: Controle cirurgico manual de um unico LED (Ex: "LED 1 50") */
-    else if (strncmp(command, "LED ", 4) == 0) {
+    else if (strncmp(command, dCMD_LED_PREFIX, dCMD_LED_PREFIX_LEN) == 0) {
         int ledNum = 0;
         int pct = 0;
         
