@@ -1,0 +1,54 @@
+# Build directories
+Debug/
+Release/
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+*.elf
+*.bin
+*.hex
+*.map
+*.lst
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# STM32CubeIDE specific
+# If you want to ignore Eclipse project files, uncomment the lines below:
+# .cproject
+# .project
+# .settings/
+# .mxproject
