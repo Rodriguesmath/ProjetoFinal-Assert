@@ -9,8 +9,11 @@
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
+#include <string.h>
 
 /* DEFINES LOCAIS */
+/// Tempo maximo de espera (timeout) para transmissao serial
+#define dUART_TX_TIMEOUT_MS 100
 /// Tempo maximo de espera (timeout) para conversao do ADC em milissegundos
 #define dADC_TIMEOUT_MS 100
 /// Valor maximo em porcentagem (100%)
@@ -108,6 +111,17 @@ bool Bsp_GetButtonTrigger(void) {
 
 void Bsp_ClearButtonTrigger(void) {
     buttonTriggerFlag = false;
+}
+
+void Bsp_TransmitString(const char *str) {
+    if (str != NULL) {
+        HAL_UART_Transmit(&huart3, (uint8_t *)str, strlen(str), dUART_TX_TIMEOUT_MS);
+    }
+}
+
+bool Bsp_ReadUartChar(uint8_t *data) {
+    /* Leitura nao bloqueante (timeout = 0) de 1 byte da UART */
+    return (HAL_UART_Receive(&huart3, data, 1, 0) == HAL_OK);
 }
 
 /**

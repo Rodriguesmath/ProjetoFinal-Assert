@@ -86,4 +86,18 @@ bool Bsp_GetButtonTrigger(void);
  */
 void Bsp_ClearButtonTrigger(void);
 
+/**
+ * @brief Transmite uma string (text/pacote) pela UART.
+ * @param str Ponteiro para a string (terminada em nulo).
+ * @retval void
+ */
+void Bsp_TransmitString(const char *str);
+
+/**
+ * @brief Tenta ler um caractere da UART de forma nao-bloqueante.
+ * @param data Ponteiro onde o caractere lido sera armazenado.
+ * @retval bool 'true' se um caractere for lido, 'false' se nao houver dados.
+ */
+bool Bsp_ReadUartChar(uint8_t *data);
+
 #endif /* _BSP_H_ */
