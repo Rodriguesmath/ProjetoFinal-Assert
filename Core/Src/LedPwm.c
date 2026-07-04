@@ -23,6 +23,9 @@ static ledMode_t currentMode = eLED_MODE_AUTOMATIC;
 /// Cache da ultima porcentagem lida para evitar atualizacoes de hardware desnecessarias
 static uint8_t lastAutoPercentage = 255; 
 
+/// Armazena o duty atual de cada LED para consulta
+static uint8_t ledDuties[3] = {0, 0, 0};
+
 void LedPwm_Init(void) {
     currentMode = eLED_MODE_AUTOMATIC;
     lastAutoPercentage = 255; /* Valor propositalmente fora de 0-100 para forcar o primeiro update */
@@ -44,6 +47,10 @@ void LedPwm_Routine(void) {
                 Bsp_SetLedPwm(eLED_1, currentAdcPercentage);
                 Bsp_SetLedPwm(eLED_2, currentAdcPercentage);
                 Bsp_SetLedPwm(eLED_3, currentAdcPercentage);
+                
+                ledDuties[0] = currentAdcPercentage;
+                ledDuties[1] = currentAdcPercentage;
+                ledDuties[2] = currentAdcPercentage;
             }
         }
     }
@@ -65,7 +72,17 @@ void LedPwm_SetManualPercentage(ledId_t led, uint8_t percentage) {
        a placa realmente estiver configurada para controle manual */
     if (currentMode == eLED_MODE_MANUAL) {
         Bsp_SetLedPwm(led, percentage);
+        if (led >= eLED_1 && led <= eLED_3) {
+            ledDuties[led] = percentage;
+        }
     }
 }
 
 /* FUNCOES LOCAIS */
+
+uint8_t LedPwm_GetDuty(ledId_t led) {
+    if (led >= eLED_1 && led <= eLED_3) {
+        return ledDuties[led];
+    }
+    return 0;
+}

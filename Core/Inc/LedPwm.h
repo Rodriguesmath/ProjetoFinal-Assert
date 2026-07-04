@@ -51,4 +51,11 @@ void LedPwm_SetMode(ledMode_t mode);
  */
 void LedPwm_SetManualPercentage(ledId_t led, uint8_t percentage);
 
+/**
+ * @brief Retorna o valor percentual atual do duty cycle de um LED especifico.
+ * @param led O identificador do LED.
+ * @retval uint8_t Porcentagem de brilho (0 a 100).
+ */
+uint8_t LedPwm_GetDuty(ledId_t led);
+
 #endif /* _LEDPWM_H_ */
