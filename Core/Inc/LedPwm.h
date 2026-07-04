@@ -13,13 +13,6 @@
 
 /* DEFINES PUBLICOS */
 
-/* TIPOS DE DADOS PUBLICOS */
-/// Enumeracao para os modos de operacao do LED
-typedef enum {
-    eLED_MODE_AUTOMATIC,
-    eLED_MODE_MANUAL
-} ledMode_t;
-
 /* PROTOTIPOS PUBLICOS */
 
 /**
@@ -37,19 +30,11 @@ void LedPwm_Init(void);
 void LedPwm_Routine(void);
 
 /**
- * @brief Altera o modo de operacao.
- * @param mode Novo modo a ser configurado.
- * @retval void
- */
-void LedPwm_SetMode(ledMode_t mode);
-
-/**
- * @brief Define manualmente a porcentagem de um LED.
+ * @brief Define qual LED sera controlado pelo potenciometro.
  * @param led O identificador do LED.
- * @param percentage Porcentagem de brilho (0 a 100).
  * @retval void
  */
-void LedPwm_SetManualPercentage(ledId_t led, uint8_t percentage);
+void LedPwm_SetSelectedLed(ledId_t led);
 
 /**
  * @brief Retorna o valor percentual atual do duty cycle de um LED especifico.
