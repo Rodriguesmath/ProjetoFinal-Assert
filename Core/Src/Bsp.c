@@ -124,6 +124,10 @@ bool Bsp_ReadUartChar(uint8_t *data) {
     return (HAL_UART_Receive(&huart3, data, 1, 0) == HAL_OK);
 }
 
+uint32_t Bsp_GetTick(void) {
+    return HAL_GetTick();
+}
+
 /**
  * @brief Callback chamado pela HAL quando ocorre o estouro (update) de um timer base.
  * @param htim Handle do timer que gerou a interrupcao.

@@ -47,8 +47,12 @@ static char rxBuffer[dRX_BUFFER_SIZE];
 /// Indice que aponta a proxima posicao livre no buffer
 static uint8_t rxIndex = 0;
 
+/// Ultimo momento que o relatorio foi enviado
+static uint32_t lastPrintTick = 0;
+
 void SerialCmd_Init(void) {
     rxIndex = 0;
+    lastPrintTick = 0;
     memset(rxBuffer, 0, dRX_BUFFER_SIZE);
 }
 
@@ -75,6 +79,24 @@ void SerialCmd_Routine(void) {
                 rxIndex++;
             }
         }
+    }
+}
+
+void SerialCmd_PrintStatus1Hz(void) {
+    /* Verifica com o BSP se 1 segundo (1000ms) se passou */
+    if ((Bsp_GetTick() - lastPrintTick) >= 1000) {
+        lastPrintTick = Bsp_GetTick();
+        
+        char printBuffer[128];
+        snprintf(printBuffer, sizeof(printBuffer), 
+                 "VALUE: %u%% || LED1: %u%% aceso || LED2: %u%% aceso || LED3: %u%% aceso || STATE: %s\r\n",
+                 Sampler_GetPercentage(),
+                 LedPwm_GetDuty(eLED_1),
+                 LedPwm_GetDuty(eLED_2),
+                 LedPwm_GetDuty(eLED_3),
+                 Button_IsFrozen() ? "OFF" : "ON");
+                 
+        Bsp_TransmitString(printBuffer);
     }
 }
 

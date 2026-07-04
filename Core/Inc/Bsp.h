@@ -100,4 +100,11 @@ void Bsp_TransmitString(const char *str);
  */
 bool Bsp_ReadUartChar(uint8_t *data);
 
+/**
+ * @brief Retorna o tempo decorrido do sistema em milissegundos (SysTick).
+ * @param void
+ * @retval uint32_t Tempo em ms.
+ */
+uint32_t Bsp_GetTick(void);
+
 #endif /* _BSP_H_ */

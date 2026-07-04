@@ -30,4 +30,11 @@ void SerialCmd_Init(void);
  */
 void SerialCmd_Routine(void);
 
+/**
+ * @brief Imprime o status do sistema a cada 1 segundo (orquestrado).
+ * @param void
+ * @retval void
+ */
+void SerialCmd_PrintStatus1Hz(void);
+
 #endif /* _SERIALCMD_H_ */
