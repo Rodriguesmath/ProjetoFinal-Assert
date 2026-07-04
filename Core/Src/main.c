@@ -32,7 +32,6 @@
 #include "LedPwm.h"
 #include "SerialCmd.h"
 #include "Button.h"
-#include <stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -132,21 +131,8 @@ int main(void)
     SerialCmd_Routine();
     Button_Routine();
     
-    static uint32_t lastPrintTick = 0;
-    if ((HAL_GetTick() - lastPrintTick) >= 1000) {
-        lastPrintTick = HAL_GetTick();
-        
-        char printBuffer[128];
-        snprintf(printBuffer, sizeof(printBuffer), 
-                 "VALUE: %u%% || LED1: %u%% aceso || LED2: %u%% aceso || LED3: %u%% aceso || STATE: %s\r\n",
-                 Sampler_GetPercentage(),
-                 LedPwm_GetDuty(eLED_1),
-                 LedPwm_GetDuty(eLED_2),
-                 LedPwm_GetDuty(eLED_3),
-                 Button_IsFrozen() ? "OFF" : "ON");
-                 
-        Bsp_TransmitString(printBuffer);
-    }
+    /* Delega a impressao periodica de 1s para o modulo especialista */
+    SerialCmd_PrintStatus1Hz();
   }
   /* USER CODE END 3 */
 }
