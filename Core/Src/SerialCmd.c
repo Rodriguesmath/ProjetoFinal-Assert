@@ -17,18 +17,15 @@
 #define dRX_BUFFER_SIZE 64
 /// Tamanho maximo reservado para o buffer de transmissao da resposta
 #define dRESPONSE_BUFFER_SIZE 128
-/// Comando para entrar no modo automatico
-#define dCMD_MODE_AUTO "MODE AUTO"
-#define dCMD_MODE_AUTO_LEN 9
-/// Comando para entrar no modo manual
-#define dCMD_MODE_MANUAL "MODE MANUAL"
-#define dCMD_MODE_MANUAL_LEN 11
-/// Comando para relatorio de status
-#define dCMD_STATUS "STATUS"
-#define dCMD_STATUS_LEN 6
-/// Comando base para controle de LED
-#define dCMD_LED_PREFIX "LED "
-#define dCMD_LED_PREFIX_LEN 4
+/// Comando para selecionar LED1
+#define dCMD_LED1 "LED1"
+#define dCMD_LED1_LEN 4
+/// Comando para selecionar LED2
+#define dCMD_LED2 "LED2"
+#define dCMD_LED2_LEN 4
+/// Comando para selecionar LED3
+#define dCMD_LED3 "LED3"
+#define dCMD_LED3_LEN 4
 
 /* CONSTANTES */
 
@@ -84,62 +81,27 @@ void SerialCmd_Routine(void) {
 /* FUNCOES LOCAIS */
 
 static void processCommand(const char *command) {
-    char responseBuffer[dRESPONSE_BUFFER_SIZE];
     
-    /* REGRA: Mudar o modulo LedPwm para o modo AUTOMATICO */
-    if (strncmp(command, dCMD_MODE_AUTO, dCMD_MODE_AUTO_LEN) == 0) {
-        LedPwm_SetMode(eLED_MODE_AUTOMATIC);
-        Bsp_TransmitString("OK: Modo Automatico Ativado\r\n");
+    /* REGRA: Selecionar LED 1 */
+    if (strncmp(command, dCMD_LED1, dCMD_LED1_LEN) == 0) {
+        LedPwm_SetSelectedLed(eLED_1);
+        Bsp_TransmitString("OK: LED1 selecionado.\r\n");
     }
     
-    /* REGRA: Mudar o modulo LedPwm para o modo MANUAL */
-    else if (strncmp(command, dCMD_MODE_MANUAL, dCMD_MODE_MANUAL_LEN) == 0) {
-        LedPwm_SetMode(eLED_MODE_MANUAL);
-        Bsp_TransmitString("OK: Modo Manual Ativado\r\n");
+    /* REGRA: Selecionar LED 2 */
+    else if (strncmp(command, dCMD_LED2, dCMD_LED2_LEN) == 0) {
+        LedPwm_SetSelectedLed(eLED_2);
+        Bsp_TransmitString("OK: LED2 selecionado.\r\n");
     }
     
-    /* REGRA: Relatorio dinamico do estado atual (Consome Sampler e Button) */
-    else if (strncmp(command, dCMD_STATUS, dCMD_STATUS_LEN) == 0) {
-        snprintf(responseBuffer, sizeof(responseBuffer), 
-                 "ADC Raw: %lu | PCT: %u%% | Congelado: %s\r\n", 
-                 (unsigned long)Sampler_GetRawAdc(), 
-                 Sampler_GetPercentage(), 
-                 Button_IsFrozen() ? "SIM" : "NAO");
-        Bsp_TransmitString(responseBuffer);
-    }
-    
-    /* REGRA: Controle cirurgico manual de um unico LED (Ex: "LED 1 50") */
-    else if (strncmp(command, dCMD_LED_PREFIX, dCMD_LED_PREFIX_LEN) == 0) {
-        int ledNum = 0;
-        int pct = 0;
-        
-        /* Quebra (Parse) a string extraindo os inteiros via sscanf */
-        if (sscanf(command, "LED %d %d", &ledNum, &pct) == 2) {
-            ledId_t targetLed;
-            bool valid = true;
-            
-            /* Valida os limites para nao enviar sujeira na camada baixa */
-            switch (ledNum) {
-                case 1: targetLed = eLED_1; break;
-                case 2: targetLed = eLED_2; break;
-                case 3: targetLed = eLED_3; break;
-                default: valid = false; break;
-            }
-            
-            if (valid) {
-                LedPwm_SetManualPercentage(targetLed, (uint8_t)pct);
-                snprintf(responseBuffer, sizeof(responseBuffer), "OK: LED %d ajustado para %d%%\r\n", ledNum, pct);
-                Bsp_TransmitString(responseBuffer);
-            } else {
-                Bsp_TransmitString("ERRO: O sistema apenas reconhece LED 1, 2 ou 3\r\n");
-            }
-        } else {
-            Bsp_TransmitString("ERRO: Sintaxe. Utilize o padrao 'LED <id> <porcentagem>'\r\n");
-        }
+    /* REGRA: Selecionar LED 3 */
+    else if (strncmp(command, dCMD_LED3, dCMD_LED3_LEN) == 0) {
+        LedPwm_SetSelectedLed(eLED_3);
+        Bsp_TransmitString("OK: LED3 selecionado.\r\n");
     }
     
     /* Nao eh igual a nenhuma das regras? Bad Request */
     else {
-        Bsp_TransmitString("ERRO: Comando nao reconhecido pelo sistema.\r\n");
+        Bsp_TransmitString("ERRO: Comando nao reconhecido. Utilize LED1, LED2 ou LED3.\r\n");
     }
 }
