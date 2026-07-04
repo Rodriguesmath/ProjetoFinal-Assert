@@ -45,17 +45,45 @@ void Bsp_SetLedPwm(ledId_t led, uint8_t percentage);
 uint16_t Bsp_ReadAdc(void);
 
 /**
- * @brief Retorna o estado da flag de estouro do timer de 5ms.
+ * @brief Retorna o estado da flag de amostragem (TIM6 - 5ms).
  * @param void
  * @retval bool 'true' se estourou, 'false' caso contrario.
  */
-bool Bsp_GetTimerFlag(void);
+bool Bsp_GetSamplingFlag(void);
 
 /**
- * @brief Limpa a flag de estouro do timer de 5ms.
+ * @brief Limpa a flag de amostragem (TIM6).
  * @param void
  * @retval void
  */
-void Bsp_ClearTimerFlag(void);
+void Bsp_ClearSamplingFlag(void);
+
+/**
+ * @brief Retorna o estado da flag de debounce (TIM7).
+ * @param void
+ * @retval bool 'true' se estourou, 'false' caso contrario.
+ */
+bool Bsp_GetDebounceFlag(void);
+
+/**
+ * @brief Limpa a flag de debounce (TIM7).
+ * @param void
+ * @retval void
+ */
+void Bsp_ClearDebounceFlag(void);
+
+/**
+ * @brief Retorna se o botao foi acionado (trigger via EXTI).
+ * @param void
+ * @retval bool 'true' se ocorreu a interrupcao, 'false' caso contrario.
+ */
+bool Bsp_GetButtonTrigger(void);
+
+/**
+ * @brief Limpa a flag de trigger do botao.
+ * @param void
+ * @retval void
+ */
+void Bsp_ClearButtonTrigger(void);
 
 #endif /* _BSP_H_ */

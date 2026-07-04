@@ -40,6 +40,9 @@ static volatile bool samplingFlag = false;
 /// Variavel flag global para indicar tick de debounce (TIM7)
 static volatile bool debounceFlag = false;
 
+/// Variavel flag global para indicar acionamento do botao (EXTI)
+static volatile bool buttonTriggerFlag = false;
+
 void Bsp_Init(void) {
     /* Inicializa e calibra o ADC */
     HAL_ADC_Start(&hadc1);
@@ -99,6 +102,14 @@ void Bsp_ClearDebounceFlag(void) {
     debounceFlag = false;
 }
 
+bool Bsp_GetButtonTrigger(void) {
+    return buttonTriggerFlag;
+}
+
+void Bsp_ClearButtonTrigger(void) {
+    buttonTriggerFlag = false;
+}
+
 /**
  * @brief Callback chamado pela HAL quando ocorre o estouro (update) de um timer base.
  * @param htim Handle do timer que gerou a interrupcao.
@@ -111,6 +122,18 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
     }
     else if (htim->Instance == TIM7) {
         debounceFlag = true;
+    }
+}
+
+/**
+ * @brief Callback chamado pela HAL quando ocorre uma interrupcao externa (EXTI).
+ * @param GPIO_Pin Pino que gerou a interrupcao.
+ * @retval void
+ */
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
+    /* Verifica se a interrupcao veio do pino do botao de usuario */
+    if (GPIO_Pin == USER_Btn_Pin) {
+        buttonTriggerFlag = true;
     }
 }
 
