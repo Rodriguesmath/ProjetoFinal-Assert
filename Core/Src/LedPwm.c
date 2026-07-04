@@ -5,7 +5,6 @@
 /* INCLUDES */
 #include "LedPwm.h"
 #include "Sampler.h"
-#include "Button.h"
 
 /* DEFINES LOCAIS */
 
@@ -31,17 +30,14 @@ void LedPwm_Init(void) {
 }
 
 void LedPwm_Routine(void) {
-    /* So atualizamos a amostragem se o sistema NAO estiver congelado (Toggle do Botao) */
-    if (!Button_IsFrozen()) {
-        uint8_t currentAdcPercentage = Sampler_GetPercentage();
+    uint8_t currentAdcPercentage = Sampler_GetPercentage();
+    
+    /* Otimizacao: envia comando para a HAL/BSP apenas se o valor mudou de fato */
+    if (currentAdcPercentage != ledDuties[selectedLed]) {
+        ledDuties[selectedLed] = currentAdcPercentage;
         
-        /* Otimizacao: envia comando para a HAL/BSP apenas se o valor mudou de fato */
-        if (currentAdcPercentage != ledDuties[selectedLed]) {
-            ledDuties[selectedLed] = currentAdcPercentage;
-            
-            /* Replica o valor percentual apenas para o LED selecionado */
-            Bsp_SetLedPwm(selectedLed, currentAdcPercentage);
-        }
+        /* Replica o valor percentual apenas para o LED selecionado */
+        Bsp_SetLedPwm(selectedLed, currentAdcPercentage);
     }
 }
 

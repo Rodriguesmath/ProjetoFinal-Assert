@@ -124,8 +124,11 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    Sampler_Routine();
-    LedPwm_Routine();
+    if (!Button_IsFrozen()) {
+        Sampler_Routine();
+        LedPwm_Routine();
+    }
+    
     SerialCmd_Routine();
     Button_Routine();
     
