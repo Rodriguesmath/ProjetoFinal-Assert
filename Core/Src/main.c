@@ -27,7 +27,11 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "Bsp.h"
+#include "Sampler.h"
+#include "LedPwm.h"
+#include "SerialCmd.h"
+#include "Button.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -105,7 +109,11 @@ int main(void)
   MX_USART3_UART_Init();
   MX_USB_OTG_FS_PCD_Init();
   /* USER CODE BEGIN 2 */
-
+  Bsp_Init();
+  Sampler_Init();
+  LedPwm_Init();
+  SerialCmd_Init();
+  Button_Init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -115,6 +123,10 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+    Sampler_Routine();
+    LedPwm_Routine();
+    SerialCmd_Routine();
+    Button_Routine();
   }
   /* USER CODE END 3 */
 }
